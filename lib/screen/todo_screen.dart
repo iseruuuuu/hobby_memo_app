@@ -31,13 +31,15 @@ class TodoScreen extends StatelessWidget {
       ),
       body: Container(
         height: MediaQuery.of(context).size.height,
-        decoration: BoxDecoration(
-          image: DecorationImage(
-            image: FileImage(todoController.backgroundImage.value),
-            fit: BoxFit.cover,
-            opacity: 0.4,
-          ),
-        ),
+        decoration: todoController.backgroundImage.value != null
+            ? BoxDecoration(
+                image: DecorationImage(
+                  image:
+                      NetworkImage(todoController.backgroundImage.value.path),
+                  opacity: 0.4,
+                ),
+              )
+            : const BoxDecoration(color: Colors.white),
         child: Stack(
           alignment: Alignment.bottomCenter,
           children: [

@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:get/get.dart';
 import 'package:hobby_memo_app/controller/filter_controller.dart';
 import 'package:hobby_memo_app/model/todo.dart';
+import 'package:hobby_memo_app/screen/search_image_screen.dart';
 import 'package:hobby_memo_app/screen/todo_add_screen.dart';
 import 'package:hobby_memo_app/service/storage_service.dart';
 import 'package:image_picker/image_picker.dart';
@@ -38,11 +39,11 @@ class TodoController extends GetxController {
   }
 
   Future pickImageFromGallery() async {
-    final pickedFile = await picker.pickImage(source: ImageSource.gallery);
-    if (pickedFile != null) {
-      backgroundImage.value = File(pickedFile.path);
-      _saveBackgroundImage(pickedFile.path);
-    }
+    Get.to(() => const SearchImageScreen())?.then((value) {
+      print(value);
+      _saveBackgroundImage(value);
+      backgroundImage.value = File(value.toString());
+    });
   }
 
   _saveBackgroundImage(String imagePath) async {
@@ -56,7 +57,6 @@ class TodoController extends GetxController {
     super.onClose();
   }
 
-  // FilterControllerの状態次第で表示タスクを変更
   List<Todo> get todos {
     final hideDone = Get.find<FilterController>().hideDone;
     if (hideDone) {
@@ -66,7 +66,6 @@ class TodoController extends GetxController {
     }
   }
 
-  // 未完了タスクの数取得
   int get countUndone {
     return _todos.fold<int>(0, (acc, todo) {
       if (!todo.done) {
@@ -76,7 +75,6 @@ class TodoController extends GetxController {
     });
   }
 
-  // IDからTodoを取得
   Todo? getTodoById(String id) {
     try {
       return _todos.singleWhere((e) => e.id == id);
@@ -85,32 +83,27 @@ class TodoController extends GetxController {
     }
   }
 
-  // Todo新規作成
   void addTodo(String description) {
     final todo = Todo(description: description);
     _todos.add(todo);
   }
 
-  // Todoのテキスト更新
   void updateText(String description, Todo todo) {
     final index = _todos.indexOf(todo);
     final newTodo = todo.copyWith(description: description);
     _todos.setAll(index, [newTodo]);
   }
 
-  // Todoの完了状況更新
   void updateDone(bool done, Todo todo) {
     final index = _todos.indexOf(todo);
     final newTodo = todo.copyWith(done: done);
     _todos.setAll(index, [newTodo]);
   }
 
-  // 指定タスクを削除
   void remove(Todo todo) {
-    _todos.remove(todo); // 等価性overrideしたのでOK
+    _todos.remove(todo);
   }
 
-  // 完了タスクを一括削除
   void deleteDone() {
     _todos.removeWhere((e) => e.done == true);
   }
