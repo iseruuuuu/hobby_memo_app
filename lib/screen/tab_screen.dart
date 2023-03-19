@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:hobby_memo_app/constants/color_constants.dart';
 import 'package:hobby_memo_app/controller/tab_screen_controller.dart';
 import 'package:hobby_memo_app/screen/setting_screen.dart';
 import 'package:hobby_memo_app/screen/todo_screen.dart';
@@ -17,20 +18,17 @@ class TabScreen extends StatelessWidget {
           const TodoScreen(),
           const SettingScreen(),
         ][controller.selectedIndex.value],
-        bottomNavigationBar: DecoratedBox(
+        bottomNavigationBar: Container(
           decoration: const BoxDecoration(
             border: Border(
-              top: BorderSide(
-                width: 0,
-                color: Colors.white,
-              ),
+              top: BorderSide(width: 1, color: Colors.grey),
             ),
           ),
           child: BottomNavigationBar(
             elevation: 0,
             backgroundColor: Colors.white,
-            selectedItemColor: const Color(0xFF4A67AD),
-            unselectedItemColor: Colors.black,
+            selectedItemColor: ColorConstant.appBarColor,
+            unselectedItemColor: Colors.grey,
             iconSize: 30,
             currentIndex: controller.selectedIndex.value,
             onTap: controller.onTap,
