@@ -1,23 +1,16 @@
-import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:hobby_memo_app/constants/color_constants.dart';
-import 'package:http/http.dart' as http;
+import 'package:hobby_memo_app/controller/search_image_screen_controller.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:get/get.dart';
+import 'package:hobby_memo_app/screen/component/no_screen.dart';
 
-class SearchImageScreen extends StatefulWidget {
-  const SearchImageScreen({super.key});
-
-  @override
-  SearchImageScreenState createState() => SearchImageScreenState();
-}
-
-class SearchImageScreenState extends State<SearchImageScreen> {
-  String _searchText = '';
-  List<Map<String, dynamic>> _images = [];
-  static const String apiKey = '20160427-6fe8f1a22bcf30f938c3ce7aa';
+class SearchImageScreen extends StatelessWidget {
+  const SearchImageScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    final controller = Get.put(SearchImageScreenController());
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -32,65 +25,49 @@ class SearchImageScreenState extends State<SearchImageScreen> {
               decoration: const InputDecoration(
                 hintText: 'Search images',
               ),
-              onChanged: (text) {
-                setState(() {
-                  _searchText = text;
-                });
-                // controller.inputText(text);
-              },
+              onChanged: controller.inputText,
             ),
           ),
-          Expanded(
-            child: GridView.builder(
-              itemCount: _images.length,
-              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 3,
-              ),
-              itemBuilder: (context, index) {
-                final image = _images[index];
-                return GestureDetector(
-                  onTap: () {
-                    // print('${image['largeImageURL']}');
-                    // controller.onTapBack(image['largeImageURL']);
-                    //TODO 画面遷移で画像を渡してあげる
-                    final result = image['largeImageURL'];
-                    Navigator.pop(context, result);
-                  },
-                  child: CachedNetworkImage(
-                    imageUrl: image['webformatURL'],
-                    placeholder: (context, url) =>
-                        const CircularProgressIndicator(),
-                    errorWidget: (context, url, error) =>
-                        const Icon(Icons.error),
-                  ),
-                );
-              },
+          Obx(
+            () => Expanded(
+              child: controller.images.isNotEmpty
+                  ? controller.isHit.value
+                      ? GridView.builder(
+                          itemCount: controller.images.length,
+                          gridDelegate:
+                              const SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: 3,
+                          ),
+                          itemBuilder: (context, index) {
+                            final image = controller.images[index];
+                            return GestureDetector(
+                              onTap: () {
+                                final result = image['largeImageURL'];
+                                Navigator.pop(context, result);
+                              },
+                              child: CachedNetworkImage(
+                                imageUrl: image['webformatURL'],
+                                placeholder: (context, url) =>
+                                    const CircularProgressIndicator(),
+                                errorWidget: (context, url, error) =>
+                                    const Icon(Icons.error),
+                              ),
+                            );
+                          },
+                        )
+                      : const NoScreen()
+                  : const EmptyScreen(),
             ),
           ),
         ],
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: _searchImages,
-        // onPressed: () => controller.searchImages(_searchText),
+        // onPressed: () => controller.searchImages(controller.searchText.value),
+        onPressed: () {
+          controller.searchImages();
+        },
         child: const Icon(Icons.search),
       ),
     );
-  }
-
-  void _searchImages() async {
-    final url = Uri.https('pixabay.com', '/api/', {
-      'key': apiKey,
-      'q': _searchText,
-    });
-
-    final response = await http.get(url);
-    if (response.statusCode == 200) {
-      final data = jsonDecode(response.body) as Map<String, dynamic>;
-      if (data['hits'] != null) {
-        setState(() {
-          _images = List<Map<String, dynamic>>.from(data['hits']);
-        });
-      }
-    }
   }
 }
