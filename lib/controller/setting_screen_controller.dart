@@ -34,11 +34,10 @@ class SettingScreenController extends GetxController {
 
   Future<void> onTapMail() async {
     //TODO お問い合わせのURLを変更する
-    // final url = Uri.parse('https://forms.gle/rfnKQfemq4rwrjYr5');
-
-    // if (!await launchUrl(url)) {
-    //   throw 'Could not launch $url';
-    // }
+    final url = Uri.parse('https://forms.gle/57XGrc1ThShbAuMn6');
+    if (!await launchUrl(url)) {
+      throw 'Could not launch $url';
+    }
   }
 
   Future<void> onTapTwitter() async {
@@ -77,9 +76,10 @@ class SettingScreenController extends GetxController {
     }
   }
 
-  void onTapShare() {
-    Share.share(
-      'https://apps.apple.com/jp/app/%E5%AE%B6%E8%A8%88%E7%B0%BF-%E7%AF%80%E7%B4%84%E8%A8%98%E9%8C%B2/id1660345986',
-    );
-  }
+  // void onTapShare() {
+  //TODO アプリURLを差し替える。
+  //   Share.share(
+  //     'https://apps.apple.com/jp/app/%E5%AE%B6%E8%A8%88%E7%B0%BF-%E7%AF%80%E7%B4%84%E8%A8%98%E9%8C%B2/id1660345986',
+  //   );
+  // }
 }

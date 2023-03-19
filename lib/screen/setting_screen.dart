@@ -70,14 +70,15 @@ class SettingScreen extends StatelessWidget {
                       title: const Text('Github'),
                       onPressed: (context) => controller.onTapGithub(),
                     ),
-                    SettingsTile.navigation(
-                      leading: Icon(
-                        AntDesign.sharealt,
-                        color: ColorConstant.black,
-                      ),
-                      title: const Text('友達に教える'),
-                      onPressed: (context) => controller.onTapShare(),
-                    ),
+                    //TODO アプリURLを差し替える。
+                    // SettingsTile.navigation(
+                    //   leading: Icon(
+                    //     AntDesign.sharealt,
+                    //     color: ColorConstant.black,
+                    //   ),
+                    //   title: const Text('友達に教える'),
+                    //   onPressed: (context) => controller.onTapShare(),
+                    // ),
                     SettingsTile.navigation(
                       title: const Text('バージョン'),
                       trailing: Obx(
