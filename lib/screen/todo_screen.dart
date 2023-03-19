@@ -45,12 +45,12 @@ class TodoScreen extends StatelessWidget {
             },
           ),
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+            padding: const EdgeInsets.only(bottom: 15),
             child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 ActionButton(
-                  label: 'delete_done'.tr,
+                  label: 'delete done',
                   icon: Icons.delete,
                   color: Colors.grey,
                   onPressed: () {
@@ -59,16 +59,18 @@ class TodoScreen extends StatelessWidget {
                     }
                   },
                 ),
-                ActionButton(
-                  label: 'add_new'.tr,
-                  icon: Icons.add,
-                  color: ColorConstant.appBarColor,
-                  onPressed: () => todoController.onTapAdd(),
-                ),
               ],
             ),
           ),
         ],
+      ),
+      floatingActionButton: FloatingActionButton(
+        backgroundColor: ColorConstant.appBarColor,
+        onPressed: todoController.onTapAdd,
+        child: const Icon(
+          Icons.add,
+          color: Colors.white,
+        ),
       ),
     );
   }
