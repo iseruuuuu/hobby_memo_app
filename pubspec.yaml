@@ -31,13 +31,21 @@ dependencies:
   flutter:
     sdk: flutter
   cupertino_icons: ^1.0.2
+  get: ^4.3.8
+  shared_preferences: ^2.0.8
+  #setting
+  settings_ui: ^2.0.2
+  flutter_vector_icons: ^2.0.0
+  in_app_review: ^2.0.6
+  url_launcher: ^6.1.7
+  share: ^2.0.4
+  flutter_easyloading: ^3.0.5
+  panara_dialogs: ^0.1.4
+  package_info_plus: ^1.0.0
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
   flutter_lints: ^2.0.0
-  get: ^4.3.8
-  shared_preferences: ^2.0.8
-
 flutter:
   uses-material-design: true

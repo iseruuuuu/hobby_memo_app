@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:hobby_memo_app/constants/color_constants.dart';
 import 'package:hobby_memo_app/controller/filter_controller.dart';
 import 'package:hobby_memo_app/controller/todo_controller.dart';
 import 'package:hobby_memo_app/screen/component/todo_action_button.dart';
@@ -13,9 +14,9 @@ class TodoScreen extends StatelessWidget {
     final todoController = Get.put(TodoController());
     final filterController = Get.put(FilterController());
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: ColorConstant.white,
       appBar: AppBar(
-        backgroundColor: Colors.lightGreen,
+        backgroundColor: ColorConstant.appBarColor,
         elevation: 0,
         leading: IconButton(
           icon: Obx(
@@ -61,7 +62,7 @@ class TodoScreen extends StatelessWidget {
                 ActionButton(
                   label: 'add_new'.tr,
                   icon: Icons.add,
-                  color: Theme.of(context).colorScheme.secondary,
+                  color: ColorConstant.appBarColor,
                   onPressed: () => todoController.onTapAdd(),
                 ),
               ],
