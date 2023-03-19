@@ -46,7 +46,7 @@ dependencies:
 
   pixabay_picker: ^1.0.6
   http: ^0.13.4
-  cached_network_image: ^3.0.0
+  cached_network_image: ^3.2.3
 
 dev_dependencies:
   flutter_test:

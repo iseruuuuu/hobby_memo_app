@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hobby_memo_app/constants/color_constants.dart';
@@ -29,52 +30,52 @@ class TodoScreen extends StatelessWidget {
           onPressed: filterController.toggleHide,
         ),
       ),
-      body: Container(
-        height: MediaQuery.of(context).size.height,
-        decoration: todoController.backgroundImage.value != null
-            ? BoxDecoration(
-                image: DecorationImage(
-                  image:
-                      NetworkImage(todoController.backgroundImage.value.path),
-                  opacity: 0.4,
+      body: Stack(
+        alignment: Alignment.bottomCenter,
+        children: [
+          Obx(
+            () => SizedBox(
+              width: MediaQuery.of(context).size.width,
+              height: MediaQuery.of(context).size.height,
+              child: Opacity(
+                opacity: 0.5,
+                child: CachedNetworkImage(
+                  imageUrl: todoController.backgroundImages.value,
                 ),
-              )
-            : const BoxDecoration(color: Colors.white),
-        child: Stack(
-          alignment: Alignment.bottomCenter,
-          children: [
-            Obx(
-              () {
-                final todos = todoController.todos;
-                return ListView.builder(
-                  itemCount: todos.length,
-                  itemBuilder: (context, index) {
-                    final todo = todos[index];
-                    return TodoTile(key: Key(todo.id), todo: todo);
-                  },
-                );
-              },
-            ),
-            Padding(
-              padding: const EdgeInsets.only(bottom: 15, left: 15),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  ActionButton(
-                    label: 'delete done',
-                    icon: Icons.delete,
-                    color: Colors.grey,
-                    onPressed: () {
-                      if (!filterController.hideDone) {
-                        todoController.deleteDone();
-                      }
-                    },
-                  ),
-                ],
               ),
             ),
-          ],
-        ),
+          ),
+          Obx(
+            () {
+              final todos = todoController.todos;
+              return ListView.builder(
+                itemCount: todos.length,
+                itemBuilder: (context, index) {
+                  final todo = todos[index];
+                  return TodoTile(key: Key(todo.id), todo: todo);
+                },
+              );
+            },
+          ),
+          Padding(
+            padding: const EdgeInsets.only(bottom: 15, left: 15),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                ActionButton(
+                  label: 'delete done',
+                  icon: Icons.delete,
+                  color: Colors.grey,
+                  onPressed: () {
+                    if (!filterController.hideDone) {
+                      todoController.deleteDone();
+                    }
+                  },
+                ),
+              ],
+            ),
+          ),
+        ],
       ),
       floatingActionButton: Row(
         mainAxisAlignment: MainAxisAlignment.end,

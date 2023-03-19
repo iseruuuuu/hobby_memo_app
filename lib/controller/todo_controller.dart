@@ -1,5 +1,3 @@
-import 'dart:io';
-import 'dart:math';
 import 'package:get/get.dart';
 import 'package:hobby_memo_app/controller/filter_controller.dart';
 import 'package:hobby_memo_app/model/todo.dart';
@@ -14,7 +12,7 @@ class TodoController extends GetxController {
 
   final _storage = TodoStorage();
   late final Worker _worker;
-  late Rx<File> backgroundImage = File('').obs;
+  late RxString backgroundImages = ''.obs;
   final picker = ImagePicker();
 
   @override
@@ -35,14 +33,13 @@ class TodoController extends GetxController {
   _loadBackgroundImage() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String imagePath = prefs.getString('backgroundImage') ?? '';
-    backgroundImage.value = File(imagePath);
+    backgroundImages.value = imagePath;
   }
 
   Future pickImageFromGallery() async {
     Get.to(() => const SearchImageScreen())?.then((value) {
-      print(value);
       _saveBackgroundImage(value);
-      backgroundImage.value = File(value.toString());
+      backgroundImages.value = value;
     });
   }
 
