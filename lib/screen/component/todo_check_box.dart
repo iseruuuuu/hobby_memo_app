@@ -11,15 +11,11 @@ class TodoCheckbox extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Transform.scale(
-      scale: 1.5,
+      scale: 1.0,
       child: Checkbox(
         shape: const CircleBorder(),
         checkColor: Colors.transparent,
-        activeColor: Colors.grey,
-        side: BorderSide(
-          width: 3,
-          color: Theme.of(context).colorScheme.primary,
-        ),
+        activeColor: Colors.lightGreen,
         value: todo.done,
         onChanged: (value) {
           Get.find<TodoController>().updateDone(value!, todo);

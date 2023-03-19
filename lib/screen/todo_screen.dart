@@ -13,38 +13,39 @@ class TodoScreen extends StatelessWidget {
     final todoController = Get.put(TodoController());
     final filterController = Get.put(FilterController());
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppBar(
-        centerTitle: true,
-        title: Obx(
-          () => Text('${'title'.tr} (${todoController.countUndone})'),
-        ),
+        backgroundColor: Colors.lightGreen,
+        elevation: 0,
         leading: IconButton(
-          icon: Obx(() => Icon(
-                filterController.hideDone
-                    ? Icons.filter_alt
-                    : Icons.filter_alt_outlined,
-              )),
+          icon: Obx(
+            () => Icon(
+              filterController.hideDone
+                  ? Icons.filter_alt
+                  : Icons.filter_alt_outlined,
+            ),
+          ),
           onPressed: filterController.toggleHide,
         ),
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(15),
-        child: Stack(
-          alignment: Alignment.bottomCenter,
-          children: [
-            Obx(
-              () {
-                final todos = todoController.todos;
-                return ListView.builder(
-                  itemCount: todos.length,
-                  itemBuilder: (context, index) {
-                    final todo = todos[index];
-                    return TodoTile(key: Key(todo.id), todo: todo);
-                  },
-                );
-              },
-            ),
-            Row(
+      body: Stack(
+        alignment: Alignment.bottomCenter,
+        children: [
+          Obx(
+            () {
+              final todos = todoController.todos;
+              return ListView.builder(
+                itemCount: todos.length,
+                itemBuilder: (context, index) {
+                  final todo = todos[index];
+                  return TodoTile(key: Key(todo.id), todo: todo);
+                },
+              );
+            },
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+            child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 ActionButton(
@@ -65,8 +66,8 @@ class TodoScreen extends StatelessWidget {
                 ),
               ],
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
