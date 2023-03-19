@@ -1,29 +1,53 @@
+import 'dart:io';
+import 'dart:math';
 import 'package:get/get.dart';
 import 'package:hobby_memo_app/controller/filter_controller.dart';
 import 'package:hobby_memo_app/model/todo.dart';
 import 'package:hobby_memo_app/screen/todo_add_screen.dart';
 import 'package:hobby_memo_app/service/storage_service.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class TodoController extends GetxController {
   final _todos = <Todo>[].obs;
 
   final _storage = TodoStorage();
   late final Worker _worker;
+  late Rx<File> backgroundImage = File('').obs;
+  final picker = ImagePicker();
 
   @override
   void onInit() {
     super.onInit();
     final storageTodos =
         _storage.load()?.map((json) => Todo.fromJson(json)).toList();
-    // SharedPreferencesにデータがなければダミー初期データをロード
     final initialTodos = storageTodos ?? Todo.initialTodos;
     _todos.addAll(initialTodos);
 
-    // _todosに変化がある度にストレージに保存
     _worker = ever<List<Todo>>(_todos, (todos) {
       final data = todos.map((e) => e.toJson()).toList();
       _storage.save(data);
     });
+    _loadBackgroundImage();
+  }
+
+  _loadBackgroundImage() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String imagePath = prefs.getString('backgroundImage') ?? '';
+    backgroundImage.value = File(imagePath);
+  }
+
+  Future pickImageFromGallery() async {
+    final pickedFile = await picker.pickImage(source: ImageSource.gallery);
+    if (pickedFile != null) {
+      backgroundImage.value = File(pickedFile.path);
+      _saveBackgroundImage(pickedFile.path);
+    }
+  }
+
+  _saveBackgroundImage(String imagePath) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setString('backgroundImage', imagePath);
   }
 
   @override

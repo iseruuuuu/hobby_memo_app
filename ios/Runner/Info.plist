@@ -12,6 +12,12 @@
 	<string>$(PRODUCT_BUNDLE_IDENTIFIER)</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
+	<key>NSCameraUsageDescription</key>
+    <string>好きな画像の登録のためにカメラの許可が必要となります。</string>
+    <key>NSMicrophoneUsageDescription</key>
+    <string>好きな画像の登録のためにMicroPhoneの許可が必要となります。</string>
+    <key>NSPhotoLibraryUsageDescription</key>
+    <string>好きな画像の登録のためにアルバムの許可が必要となります。。</string>
 	<key>CFBundleName</key>
 	<string>hobby_memo_app</string>
 	<key>CFBundlePackageType</key>

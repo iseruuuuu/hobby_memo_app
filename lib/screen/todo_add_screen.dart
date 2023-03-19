@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:hobby_memo_app/constants/color_constants.dart';
 import 'package:hobby_memo_app/controller/todo_controller.dart';
 import 'package:hobby_memo_app/model/todo.dart';
 import 'package:hobby_memo_app/screen/component/todo_action_button.dart';
@@ -39,7 +40,22 @@ class TodoAddScreenState extends State<TodoAddScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('id: ${(todo?.id ?? 'new_todo'.tr)}'),
+        backgroundColor: ColorConstant.appBarColor,
+        elevation: 0,
+        actions: [
+          IconButton(
+            onPressed: () {
+              final text = textController.text;
+              if (todo == null && text.isNotEmpty) {
+                todoController.addTodo(text);
+              } else if (todo != null) {
+                todoController.updateText(text, todo!);
+              }
+              Get.back();
+            },
+            icon: const Icon(Icons.send),
+          ),
+        ],
       ),
       body: Padding(
         padding: const EdgeInsets.all(15),
@@ -51,38 +67,13 @@ class TodoAddScreenState extends State<TodoAddScreen> {
                 TextField(
                   controller: textController,
                   autofocus: true,
-                  decoration: InputDecoration(
-                    hintText: 'your_plan'.tr,
+                  decoration: const InputDecoration(
+                    hintText: 'タスクの入力',
                     border: InputBorder.none,
                     focusedBorder: InputBorder.none,
                   ),
-                  style: const TextStyle(fontSize: 25),
+                  style: const TextStyle(fontSize: 20),
                   maxLines: null,
-                ),
-              ],
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                ActionButton(
-                  label: 'cancel'.tr,
-                  icon: Icons.cancel,
-                  color: Colors.grey,
-                  onPressed: () => Get.back(),
-                ),
-                ActionButton(
-                  label: todo == null ? 'add'.tr : 'update'.tr,
-                  icon: Icons.check,
-                  color: Theme.of(context).colorScheme.secondary,
-                  onPressed: () {
-                    final text = textController.text;
-                    if (todo == null && text.isNotEmpty) {
-                      todoController.addTodo(text);
-                    } else if (todo != null) {
-                      todoController.updateText(text, todo!);
-                    }
-                    Get.back();
-                  },
                 ),
               ],
             ),

@@ -14,7 +14,7 @@ class TodoScreen extends StatelessWidget {
     final todoController = Get.put(TodoController());
     final filterController = Get.put(FilterController());
     return Scaffold(
-      backgroundColor: ColorConstant.white,
+      backgroundColor: Colors.white,
       appBar: AppBar(
         backgroundColor: ColorConstant.appBarColor,
         elevation: 0,
@@ -29,48 +29,74 @@ class TodoScreen extends StatelessWidget {
           onPressed: filterController.toggleHide,
         ),
       ),
-      body: Stack(
-        alignment: Alignment.bottomCenter,
-        children: [
-          Obx(
-            () {
-              final todos = todoController.todos;
-              return ListView.builder(
-                itemCount: todos.length,
-                itemBuilder: (context, index) {
-                  final todo = todos[index];
-                  return TodoTile(key: Key(todo.id), todo: todo);
-                },
-              );
-            },
+      body: Container(
+        height: MediaQuery.of(context).size.height,
+        decoration: BoxDecoration(
+          image: DecorationImage(
+            image: FileImage(todoController.backgroundImage.value),
+            fit: BoxFit.cover,
+            opacity: 0.4,
           ),
-          Padding(
-            padding: const EdgeInsets.only(bottom: 15),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                ActionButton(
-                  label: 'delete done',
-                  icon: Icons.delete,
-                  color: Colors.grey,
-                  onPressed: () {
-                    if (!filterController.hideDone) {
-                      todoController.deleteDone();
-                    }
+        ),
+        child: Stack(
+          alignment: Alignment.bottomCenter,
+          children: [
+            Obx(
+              () {
+                final todos = todoController.todos;
+                return ListView.builder(
+                  itemCount: todos.length,
+                  itemBuilder: (context, index) {
+                    final todo = todos[index];
+                    return TodoTile(key: Key(todo.id), todo: todo);
                   },
-                ),
-              ],
+                );
+              },
+            ),
+            Padding(
+              padding: const EdgeInsets.only(bottom: 15, left: 15),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  ActionButton(
+                    label: 'delete done',
+                    icon: Icons.delete,
+                    color: Colors.grey,
+                    onPressed: () {
+                      if (!filterController.hideDone) {
+                        todoController.deleteDone();
+                      }
+                    },
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+      floatingActionButton: Row(
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: [
+          FloatingActionButton(
+            heroTag: null,
+            backgroundColor: ColorConstant.appBarColor,
+            onPressed: todoController.pickImageFromGallery,
+            child: const Icon(
+              Icons.image,
+              color: Colors.white,
+            ),
+          ),
+          const SizedBox(width: 30),
+          FloatingActionButton(
+            heroTag: null,
+            backgroundColor: ColorConstant.appBarColor,
+            onPressed: todoController.onTapAdd,
+            child: const Icon(
+              Icons.add,
+              color: Colors.white,
             ),
           ),
         ],
-      ),
-      floatingActionButton: FloatingActionButton(
-        backgroundColor: ColorConstant.appBarColor,
-        onPressed: todoController.onTapAdd,
-        child: const Icon(
-          Icons.add,
-          color: Colors.white,
-        ),
       ),
     );
   }
