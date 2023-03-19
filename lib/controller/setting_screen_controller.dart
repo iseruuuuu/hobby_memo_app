@@ -33,10 +33,12 @@ class SettingScreenController extends GetxController {
   }
 
   Future<void> onTapMail() async {
-    final url = Uri.parse('https://forms.gle/rfnKQfemq4rwrjYr5');
-    if (!await launchUrl(url)) {
-      throw 'Could not launch $url';
-    }
+    //TODO お問い合わせのURLを変更する
+    // final url = Uri.parse('https://forms.gle/rfnKQfemq4rwrjYr5');
+
+    // if (!await launchUrl(url)) {
+    //   throw 'Could not launch $url';
+    // }
   }
 
   Future<void> onTapTwitter() async {
