@@ -1,21 +1,35 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 
-class NotFoundPage extends StatelessWidget {
-  const NotFoundPage({Key? key}) : super(key: key);
+class EmptyScreen extends StatelessWidget {
+  const EmptyScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('page_not_found'.tr),
+    return const Center(
+      child: Text(
+        'You Search Images',
+        style: TextStyle(
+          fontWeight: FontWeight.bold,
+          color: Colors.black,
+          fontSize: 20,
+        ),
       ),
-      body: Center(
-        child: ElevatedButton(
-          onPressed: () {
-            Get.offAllNamed('/home');
-          },
-          child: Text('to_home'.tr),
+    );
+  }
+}
+
+class NoScreen extends StatelessWidget {
+  const NoScreen({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return const Center(
+      child: Text(
+        'No Result',
+        style: TextStyle(
+          fontWeight: FontWeight.bold,
+          color: Colors.black,
+          fontSize: 20,
         ),
       ),
     );
